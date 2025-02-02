@@ -125,27 +125,28 @@ def generate_pdf_from_string_audio(input_string, filename="output.pdf"):
     pdf_bytes = pdf.output(dest="S").encode('latin-1')
     return pdf_bytes
 
-# --- PDF Generation Function for Files ---
-def clean_text(text):
-    """Removes unsupported characters to prevent encoding issues."""
-    return ''.join(c for c in text if unicodedata.category(c)[0] != "C")  # Remove control characters
 
+# --- PDF Generation Function for Files ---
 def generate_pdf_from_string_files(input_string, filename="output.pdf"):
     pdf = FPDF()
     pdf.set_auto_page_break(auto=True, margin=15)
     pdf.add_page()
-    
-    # Use a Unicode-supported font (ensure 'DejaVuSans.ttf' is available)
-    pdf.add_font("DejaVu", "", "DejaVuSans.ttf", uni=True)
-    pdf.set_font("DejaVu", size=12)
 
-    # Clean text to remove problematic characters
-    cleaned_text = clean_text(input_string)
-    
-    pdf.multi_cell(0, 10, cleaned_text)
+    # Use a standard font with UTF-8 support
+    pdf.add_font("Arial", "", "arial.ttf", uni=True)  # Ensure arial.ttf is in your project directory
+    pdf.set_font("Arial", size=12)
 
-    # Output as bytes using UTF-8 encoding (fixes 'latin-1' issue)
-    pdf_bytes = pdf.output(dest="S")  #No encoding done now
+    # Replace unsupported characters and clean text
+    cleaned_text = input_string.encode('latin-1', 'ignore').decode('latin-1')  
+
+    # Add text to PDF
+    if cleaned_text.strip():  # Avoid blank pages
+        pdf.multi_cell(0, 10, cleaned_text)
+    else:
+        pdf.multi_cell(0, 10, "Error: No valid content to display.")
+
+    # Return the PDF as bytes
+    pdf_bytes = pdf.output(dest="S").encode('latin-1')
     return pdf_bytes
     
 # --- Extract text from PDF file ---
@@ -170,10 +171,10 @@ def normalize_text(text):
       return " ".join(line.strip() for line in lines)
 
 # --- Streamlit UI ---
-def main_app():
+def main():
     global recording_thread
     global stop_event
-    st.title("🎙️ Meeting Minutes Generator 📝")
+    st.title("🎙 Meeting Minutes Generator 📝")
 
     audio_input_type = st.radio("Select Audio Input:", ("Microphone", "System Audio"))
 
@@ -206,8 +207,8 @@ def main_app():
 
     elif audio_input_type == "System Audio":
         st.write("Click the button to record and process the audio")
-        start_recording = st.button("Start Recording", key = "start_system_audio")
-        stop_recording = st.button("Stop Recording and Process", key = "stop_system_audio")
+        start_recording = st.button("Start Recording")
+        stop_recording = st.button("Stop Recording and Process")
         transcript_chunks = []
         if start_recording:
             if recording_thread and recording_thread.is_alive():
@@ -224,7 +225,6 @@ def main_app():
             if recording_thread and recording_thread.is_alive():
                 stop_event.set()
                 recording_thread.join()
-                recording_thread = None #Set to none to avoid issues
             with st.spinner("Processing Audio...."):
                  try:
                     with wave.open(OUTPUT_FILE, 'wb') as wf:
@@ -256,7 +256,7 @@ def main_app():
     st.write("OR")
     st.write("Upload a file to generate MOM (PDF Only)")
 
-    uploaded_file = st.file_uploader("Upload PDF file", type=["pdf"], key="file_upload")
+    uploaded_file = st.file_uploader("Upload PDF file", type=["pdf"])
 
     if uploaded_file is not None:
           try:
@@ -281,5 +281,6 @@ def main_app():
           except Exception as e:
              st.write(f"Error: Could not process the file. {e}")
 
+
 if __name__ == "__main__":
-    main_app()
+    main()
