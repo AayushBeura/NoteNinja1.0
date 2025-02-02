@@ -20,8 +20,6 @@ NoteNinja 1.0 is a Streamlit application designed to simplify meeting documentat
 
 *   **Integrating System Audio:** Capture meetings, webinars, and other audio from your system.
 *   **Implementing Multithreading:** Process audio with better efficiency through chunking data.
-*   **Uploading Audio File:** Transcribe and generate MOM from uploaded WAV audio files.
-*   **Basic Functionality:** Microphone recording, transcription, AI-powered summary generation, and downloadable PDFs for audio files are working well.
 
 ## 🛠️ Technologies Used
 
@@ -69,8 +67,6 @@ NoteNinja 1.0 is a Streamlit application designed to simplify meeting documentat
 
 ## ⚠️ Known Issues
 
-*   **PDF Files with No Content:** The application now handles PDF files with no content or invalid text, showing the user that there is no text to process.
-*   **Occasional Blank PDF:** The PDF generation is more robust, but you should verify that the data is valid before trying to generate a PDF.
 *   **System Audio Input:** The website is unable to capture the system audio input currently and work is under progress.
 
 ## 💡 Future Improvements
