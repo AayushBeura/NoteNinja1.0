@@ -36,6 +36,17 @@ def home_page():
                 padding: 15px 30px;
                 font-size: 1.5em;
           }
+       .tech-icons {
+         display: flex;
+         justify-content: center;
+         gap: 20px;
+         margin-top: 20px;
+         flex-wrap: wrap; /* Allow icons to wrap on smaller screens */
+        }
+        .tech-icons img {
+          width: 50px;  /* Adjust the size as needed */
+          height: 50px;
+        }
        </style>
         """,
          unsafe_allow_html=True
@@ -50,7 +61,15 @@ def home_page():
            <p style='margin-top: 30px;
               font-size: 1.3em;
               font-style: bold;
-              color: gray'><b>Tech Stack Used:</b> Python, HTML, CSS, Streamlit, Google Gemini AI, SpeechRecognition API, NumPy, SoundDevice, FPDF</p>
+              color: gray'><b>Tech Stack Used:</b> Python, HTML, CSS, Streamlit, Google Gemini AI, SpeechRecognition API, NumPy</p>
+            <div class="tech-icons">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/1200px-HTML5_logo_and_wordmark.svg.png" alt="HTML Icon" />
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/CSS3_logo_and_wordmark.svg/1200px-CSS3_logo_and_wordmark.svg.png" alt="CSS Icon" />
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1200px-Python-logo-notext.svg.png" alt="Python Icon" />
+              <img src="https://streamlit.io/images/brand/streamlit-mark-color.png" alt="Streamlit Icon" />
+               <img src="https://premiercloud.com/wp-content/uploads/2024/07/google-gemini-icon.png" alt="Google Gemini Icon" />
+              <img src="https://numpy.org/doc/stable/_static/numpylogo.svg" alt="NumPy Icon" />
+            </div>
            <div style="margin-top: 30px;"></div>
         </div>
         """,
