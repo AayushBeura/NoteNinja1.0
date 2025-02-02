@@ -133,7 +133,7 @@ def generate_pdf_from_string_files(input_string, filename="output.pdf"):
     pdf.add_page()
 
     # Use a standard font with UTF-8 support
-    pdf.add_font("Arial", "", "arial.ttf", uni=True)  # Ensure arial.ttf is in your project directory
+    pdf.add_font("Arial", "", "Arial.ttf", uni=True)  # Ensure arial.ttf is in your project directory
     pdf.set_font("Arial", size=12)
 
     # Replace unsupported characters and clean text
