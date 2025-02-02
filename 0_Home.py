@@ -57,7 +57,22 @@ def home_page():
         f"""
         <div style="text-align: center; margin-top: 20px;">
            <h2 style='font-family: Arial, sans-serif;'>About NoteNinja</h2>
-           <p style='font-family: Arial, sans-serif;'>NoteNinja is a Streamlit application that uses the power of AI to transcribe and summarize meetings. It allows users to record or upload audio and generate accurate minutes. It has support for microphone and system audio, as well as support for file upload.</p>
+           <p style='font-family: Arial, sans-serif;'>NoteNinja is a Streamlit application designed to streamline your meeting workflows. It leverages advanced AI capabilities to transcribe and summarize meetings accurately. It provides several different methods for capturing the audio for transcription, allowing users to record or upload audio, generate accurate minutes, and providing a downloadable PDF format.</p>
+            <br>
+            <div style="margin-top: 20px;">
+              <h3 style='font-family: Arial, sans-serif;'>✨ Key Features</h3   >
+                <ul style="list-style-type: disc; display: inline-block; text-align: left; margin: 0 auto;">
+                     <li  style='margin-bottom: 8px;font-family: Arial, sans-serif;'><b>Real-Time System Audio Recording & Transcription:</b> Capture audio from your system's default output device, transcribing it using Google's Speech Recognition API.</li>
+                      <li style='margin-bottom: 8px;font-family: Arial, sans-serif;'><b>Multi-threading for Audio Processing:</b> System audio is processed efficiently using a multithreading technique, by chunking the audio data for a smoother experience.</li>
+                     <li style='margin-bottom: 8px;font-family: Arial, sans-serif;'><b>Microphone Recording:</b> Record and transcribe audio directly from your microphone.</li>
+                     <li style='margin-bottom: 8px;font-family: Arial, sans-serif;'><b>Audio File Upload:</b> Transcribe and summarize audio from uploaded WAV files.</li>
+                      <li style='margin-bottom: 8px;font-family: Arial, sans-serif;'><b>PDF File Upload:</b> Upload and summarize text from PDF files.</li>
+                      <li style='margin-bottom: 8px;font-family: Arial, sans-serif;'><b>AI-Powered MOM Generation:</b> Generate informative meeting summaries using Gemini AI.</li>
+                     <li style='margin-bottom: 8px;font-family: Arial, sans-serif;'><b>Downloadable PDF Output:</b> Save generated MOMs as downloadable PDF files.</li>
+                     <li style='margin-bottom: 8px;font-family: Arial, sans-serif;'><b>Robust Error Handling:</b> The app has more robust error handling and checks for various edge cases, especially while handling PDF files.</li>
+                       <li  style='margin-bottom: 8px;font-family: Arial, sans-serif;'><b>User-Friendly Instructions:</b> Easy to use, with clear user friendly instructions.</li>
+                </ul>
+           </div>
            <p style='margin-top: 30px;
               font-size: 1.3em;
               font-style: bold;
