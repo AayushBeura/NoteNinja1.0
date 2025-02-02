@@ -7,3 +7,4 @@ audio-recorder-streamlit
 fpdf
 PyPDF2
 python-docx
+pypdf
