@@ -174,7 +174,8 @@ def normalize_text(text):
 def main():
     global recording_thread
     global stop_event
-    st.title("🎙 NoteNinja M.O.M Generator 📝 (No Puns Intended)")
+    st.title("🎙 NoteNinja M.O.M Generator 📝")
+    st.title(" (No Puns Intended)")
 
     audio_input_type = st.radio("Select Audio Input:", ("Microphone", "System Audio"))
 
