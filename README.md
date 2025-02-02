@@ -26,6 +26,9 @@ NoteNinja 1.0 is a Streamlit application designed to simplify meeting documentat
 ## 🛠️ Technologies Used
 
 *   **Streamlit:** Used to create an interactive web application.
+*   **Python:** Used for the coding environment since it includes the best environment for AI Implementation.
+*   **HTML and CSS:** Used to modify the placings of different widgets on the main webpage.
+*   **JavaScript:** Used for button clickability and redirection integration.
 *   **Google Gemini API:** Used for natural language processing and text generation.
 *   **SpeechRecognition:** Used for audio-to-text transcription.
 *   **Sounddevice:** Used to access system audio input.
