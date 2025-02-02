@@ -92,7 +92,7 @@ def prepare_mom_prompt_audio(transcript):
     prompt = (
         f"Prepare a MOM (Minutes of Meeting) for the following transcript in a suitable format. "
         f"Date: {date_found}. "
-        f"Do not produce any pre- or post-texts. Generate insights based on the content logically. "
+        f"Do not produce any pre- or post-texts. Generate insights based on the content logically. Keep it as concise as possible. "
         f"Remove all unnecessary symbols or formatting: {transcript}"
     )
     return prompt
