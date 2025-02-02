@@ -4,7 +4,7 @@ def home_page():
     # Page config
     st.set_page_config(
         page_title="NoteNinja - AI Meeting Minutes Generator",
-        page_icon="🎯",
+        page_icon="🥷",
         layout="wide"
     )
 
