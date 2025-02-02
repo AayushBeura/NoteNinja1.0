@@ -174,12 +174,12 @@ def normalize_text(text):
 def main():
     global recording_thread
     global stop_event
-    st.title("🎙 Meeting Minutes Generator 📝")
+    st.title("🎙 NoteNinja M.O.M Generator 📝 (No Puns Intended)")
 
     audio_input_type = st.radio("Select Audio Input:", ("Microphone", "System Audio"))
 
     if audio_input_type == "Microphone":
-        st.write("Click the button below to start the recording and then press again to stop the recording and process the audio:")
+        st.write("Click the button below to start the recording and then press again to stop the recording and process the audio (It may need the second click after you allow access to your microphone):")
         audio_bytes = audio_recorder(pause_threshold=1000.0, sample_rate=41_000)
         if audio_bytes:
             try:
