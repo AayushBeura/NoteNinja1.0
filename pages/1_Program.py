@@ -17,7 +17,7 @@ import docx
 import unicodedata
 
 # --- API Keys and Setup ---
-API_KEY = st.secrets["GOOGLE_API_KEY"]  # Replace with your API key
+API_KEY = "AIzaSyBQG_7hh4KkpjM-P2jc0E2tbCAtGilyZNE" 
 MODEL_NAME = "gemini-2.0-flash-exp"
 
 genai.configure(api_key=API_KEY)
@@ -56,6 +56,15 @@ def audio_recording_sounddevice(audio_queue, event, channels):
     except Exception as e:
         print(f"Error recording audio: {e}")
         return None
+    
+# --- Audio Conversion function
+def convert_mp3_to_wav(audio_file, output_file):
+    try:
+        from pydub import AudioSegment
+        sound = AudioSegment.from_mp3(audio_file)
+        sound.export(output_file, format = "wav")
+    except Exception as e:
+      print(f"Error processing audio {e}")
 
 # --- Speech Recognition (Transcription) ---
 def transcribe_audio(audio_file):
@@ -174,13 +183,11 @@ def normalize_text(text):
 def main():
     global recording_thread
     global stop_event
-    st.title("🎙 NoteNinja M.O.M Generator 📝")
-    st.title(" (No Puns Intended)")
+    st.markdown("<h1 style='font-family: Arial, sans-serif;'>🎙 NoteNinja M.O.M Generator 📝 <span style='font-size:0.7em;'> (No Puns Intended)</span></h1>", unsafe_allow_html = True)
 
     audio_input_type = st.radio("Select Audio Input:", ("Microphone", "System Audio"))
-
     if audio_input_type == "Microphone":
-        st.write("Click the button below to start the recording and then press again to stop the recording and process the audio (It may need the second click after you allow access to your microphone):")
+        st.success("Click the button below to start the recording and then press again to stop the recording and process the audio (It may need the second click after you allow access to your microphone):")
         audio_bytes = audio_recorder(pause_threshold=1000.0, sample_rate=41_000)
         if audio_bytes:
             try:
@@ -205,57 +212,96 @@ def main():
                         st.write("No transcript found.")
             except Exception as e:
                 st.write(f"An error has occurred during audio processing: {e}")
-
     elif audio_input_type == "System Audio":
-        st.write("Click the button to record and process the audio")
+      audio_source = st.radio("Select System Audio Source:", ("Upload Audio File", "System Recording"), horizontal = True)
+      if audio_source == "System Recording":
+        st.warning('''WARNING : This feature may not work on devices lacking Loopback. 
+        
+        You need to use a Virtual Audio Cable for inputting system audio.''')
         start_recording = st.button("Start Recording")
         stop_recording = st.button("Stop Recording and Process")
         transcript_chunks = []
         if start_recording:
-            if recording_thread and recording_thread.is_alive():
-                st.write("Already recording...")
-            else:
-                st.write("Starting the recording")
-                stop_event.clear()
-                default_output_device = sd.query_devices(kind='output')
-                channels = default_output_device['max_output_channels']
-                recording_thread = threading.Thread(target=audio_recording_sounddevice, args=(audio_queue, stop_event, channels))
-                recording_thread.start()
+              if recording_thread and recording_thread.is_alive():
+                  st.write("Already recording...")
+              else:
+                  st.write("Starting the recording")
+                  stop_event.clear()
+                  default_output_device = sd.query_devices(kind='output')
+                  channels = default_output_device['max_output_channels']
+                  recording_thread = threading.Thread(target=audio_recording_sounddevice, args=(audio_queue, stop_event, channels))
+                  recording_thread.start()
 
         if stop_recording:
-            if recording_thread and recording_thread.is_alive():
-                stop_event.set()
-                recording_thread.join()
-            with st.spinner("Processing Audio...."):
-                 try:
-                    with wave.open(OUTPUT_FILE, 'wb') as wf:
-                        wf.setnchannels(CHANNELS)
-                        wf.setsampwidth(2)
-                        wf.setframerate(SAMPLE_RATE)
-                        while not audio_queue.empty():
-                            audio_data = audio_queue.get()
-                            wf.writeframes(audio_data)
+              if recording_thread and recording_thread.is_alive():
+                   stop_event.set()
+                   recording_thread.join()
+              with st.spinner("Processing Audio...."):
+                   try:
+                        with wave.open(OUTPUT_FILE, 'wb') as wf:
+                            wf.setnchannels(CHANNELS)
+                            wf.setsampwidth(2)
+                            wf.setframerate(SAMPLE_RATE)
+                            while not audio_queue.empty():
+                                audio_data = audio_queue.get()
+                                wf.writeframes(audio_data)
 
-                    transcript = transcribe_audio(OUTPUT_FILE)
-                    if transcript:
-                        mom_prompt = prepare_mom_prompt_audio(transcript)
-                        result = generate_text(mom_prompt)
-                        st.write("\nGenerated MOM:\n", result)
-                        pdf_file = generate_pdf_from_string_audio(result)
-                        st.download_button(
-                           label="Download MOM as PDF",
-                           data = pdf_file,
-                           file_name = "mom.pdf",
-                           mime = "application/pdf",
-                           key="system_audio_download"
-                           )
-                    else:
-                        st.write("No transcript found.")
-                 except Exception as e:
-                    st.write(f"An error has occurred during audio processing: {e}")
+                        transcript = transcribe_audio(OUTPUT_FILE)
+                        if transcript:
+                              mom_prompt = prepare_mom_prompt_audio(transcript)
+                              result = generate_text(mom_prompt)
+                              st.write("\nGenerated MOM:\n", result)
+                              pdf_file = generate_pdf_from_string_audio(result)
+                              st.download_button(
+                                 label="Download MOM as PDF",
+                                data = pdf_file,
+                                 file_name = "mom.pdf",
+                                 mime = "application/pdf",
+                                 key="system_audio_download"
+                               )
+                        else:
+                           st.write("No transcript found.")
+                   except Exception as e:
+                        st.write(f"An error has occurred during audio processing: {e}")
+
+      elif audio_source == "Upload Audio File":
+          st.success("Please upload supported files only (PDF Files).")
+          uploaded_audio = st.file_uploader("Upload Audio File", type = ["mp3", "wav"])
+          if uploaded_audio:
+             try:
+                  with st.spinner("Processing Audio file"):
+                        if uploaded_audio.name.lower().endswith(".mp3"):
+                           convert_mp3_to_wav(uploaded_audio, OUTPUT_FILE)
+                           transcript = transcribe_audio(OUTPUT_FILE)
+                        elif uploaded_audio.name.lower().endswith(".wav"):
+                          with open (OUTPUT_FILE, 'wb') as f:
+                              f.write(uploaded_audio.getvalue())
+                          transcript = transcribe_audio(OUTPUT_FILE)
+
+                        else:
+                           st.write("Please upload a file that ends in either `.mp3` or `.wav`")
+                           return
+
+                        if transcript:
+                           mom_prompt = prepare_mom_prompt_audio(transcript)
+                           result = generate_text(mom_prompt)
+                           st.write("\nGenerated MOM:\n", result)
+                           pdf_file = generate_pdf_from_string_audio(result)
+                           st.download_button(
+                                label = "Download MOM as PDF",
+                                 data = pdf_file,
+                                file_name = "mom.pdf",
+                                mime = "application/pdf",
+                                key="audio_file_download"
+                              )
+                        else:
+                              st.write("No transcript found")
+             except Exception as e:
+                    st.write(f"Error during audio file upload and transcription : {e}")
+            
     st.markdown("---")
     st.write("OR")
-    st.write("Upload a file to generate MOM (PDF Only)")
+    st.success("Upload a file to generate MOM (PDF Only)")
 
     uploaded_file = st.file_uploader("Upload PDF file", type=["pdf"])
 
