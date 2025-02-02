@@ -52,9 +52,9 @@ def contact():
         # Social Media Links
         st.markdown("""
         ### Connect With Us
-        [![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/noteninja)
-        [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/company/noteninja)
-        [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/noteninja)
+        [![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/AayushBeura)
+        [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/AayushBeura)
+        [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/AayushBeura)
         """)
         
         st.markdown("""
@@ -64,13 +64,12 @@ def contact():
         Sunday: Closed
         
         ### Location
-        📍 Innovation Hub
-        123 Tech Street
-        Silicon Valley, CA 94025
+        📍 KIIT Deemed to be University
+        Bhubaneswar, Odisha
         
         ### Support
         📧 support@noteninja.com
-        ☎️ +1 (555) 123-4567
+        ☎️ +91 XXXXX XXXXX
         """)
 
 if __name__ == "__main__":
