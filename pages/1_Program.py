@@ -17,7 +17,7 @@ import docx
 import unicodedata
 
 # --- API Keys and Setup ---
-API_KEY = st.secrets[GOOGLE_API_KEY]
+API_KEY = st.secrets["GOOGLE_API_KEY"]
 MODEL_NAME = "gemini-2.0-flash-exp"
 
 genai.configure(api_key=API_KEY)
