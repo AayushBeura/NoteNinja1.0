@@ -1,0 +1,9 @@
+streamlit>=1.24.0
+google-generativeai
+SpeechRecognition
+numpy
+sounddevice
+audio-recorder-streamlit
+fpdf
+PyPDF2
+python-docx
