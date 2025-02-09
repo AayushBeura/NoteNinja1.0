@@ -265,7 +265,7 @@ def main():
                         st.write(f"An error has occurred during audio processing: {e}")
 
       elif audio_source == "Upload Audio File":
-          st.success("Please upload supported files only (PDF Files).")
+          st.success("Please upload supported files only (MP3/WAV Files).")
           uploaded_audio = st.file_uploader("Upload Audio File", type = ["mp3", "wav"])
           if uploaded_audio:
              try:
